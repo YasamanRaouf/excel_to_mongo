@@ -86,3 +86,8 @@ Method: DELETE
 
 sh
 python manage.py test
+
+
+
+
+Yasaman Raoufmoghadam
