@@ -1,8 +1,8 @@
 # api/serializers.py
 from rest_framework import serializers
-from .models import UserData
+from .models import PhoneNumber
 
-class UserDataSerializer(serializers.ModelSerializer):
+class PhoneNumberSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserData
+        model = PhoneNumber
         fields = '__all__'

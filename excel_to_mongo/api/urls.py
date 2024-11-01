@@ -1,7 +1,7 @@
 # api/urls.py
 from django.urls import path
-from .views import UploadExcelView
+from .views import upload_excel
 
 urlpatterns = [
-    path('upload-excel/', UploadExcelView.as_view(), name='upload-excel'),
+    path('upload/', upload_excel, name='upload_excel'),
 ]

@@ -1,19 +1,18 @@
 # api/views.py
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
-import pandas as pd
-from .models import UserData
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import PhoneNumber
+import openpyxl
 
-class UploadExcelView(APIView):
-    def post(self, request):
-        file = request.FILES['file']
-        data = pd.read_excel(file)
+@api_view(['POST'])
+def upload_excel(request):
+    file = request.FILES['file']
+    wb = openpyxl.load_workbook(file)
+    sheet = wb.active
 
-        for index, row in data.iterrows():
-            UserData.objects.create(
-                name=row['Name'],
-                phone_number=row['Phone']
-            )
+    for row in sheet.iter_rows(min_row=2, values_only=True):  # فرض اینکه ردیف اول عناوین هستند
+        phone_number = PhoneNumber(number=row[0])
+        phone_number.save()
 
-        return Response({'message': 'Data imported successfully'}, status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_201_CREATED)
